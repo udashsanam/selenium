@@ -3,10 +3,7 @@ package org.learn;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -90,5 +87,29 @@ public class MainTest {
         message.getText();
 
         driver.quit();
+    }
+
+    @Test
+    public void switchWindow() throws InterruptedException {
+        WebDriver webDriver = new ChromeDriver();
+        webDriver.manage().timeouts().pageLoadTimeout(Duration.ofMinutes(1));
+        webDriver.get("https://google.com");
+        String originWindow = webDriver.getWindowHandle();
+
+        webDriver.navigate().to("http://www.sanamudash.com.np/?i=1");
+        System.out.println(webDriver.getCurrentUrl());
+        System.out.println(webDriver.getTitle());
+        Thread.sleep(2000);
+        webDriver.navigate().refresh();
+        Thread.sleep(2000);
+        webDriver.navigate().back();
+        Thread.sleep(2000);
+        webDriver.navigate().forward();
+        Thread.sleep(2000);
+        webDriver.switchTo().window(originWindow);
+//        webDriver.switchTo().newWindow(WindowType.WINDOW);
+//        webDriver.switchTo().newWindow(WindowType.TAB);
+        Thread.sleep(4000);
+        webDriver.quit();
     }
 }
